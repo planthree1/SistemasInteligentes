@@ -1,0 +1,79 @@
+Aqui está:
+
+~ ~ ~ PacMan | Search ~ ~ ~
+
+Pré-requisitos: Python 2.7
+
+O desafio 2 será feito em pequenas entregas. A 1ª ficou para o dia 19/04/2020.
+
+Antes de 19/04 podemos conatar o prof por:
+- email
+- forum criado no eLearning onde os alunos podem enviar questões e qualquer pessoa pode responder
+- combinar sessão no 8x8 (recurso online)
+
+O professor também irá marcar um dia para dar um ponto de situação antes da 1ª entrega.
+
+// ---
+
+Deverá descarregar o programa PacMan:
+
+Desafio 2 - Código Python
+https://elearning.ua.pt/mod/resource/view.php?id=700714
+
+Desafio 2 - PPT
+https://elearning.ua.pt/mod/resource/view.php?id=705457
+
+Observações:
+1 - Com base na função tinyMazeSearch(),
+2 - Vamos implementar a função depthFirstSearch (utilizar DFS)
+3 - E podemos eventualmente precisar utilizar a funcao searchAgent()
+
+Deverá ter um relatório simples (máx 4 pages) com:
+- pseudocódigo na versão de grafos
+- colar o codigo desenvolvido (apenas a função)
+
+// ---
+
+Exemplo de uma forma de rodar o PacMan:
+python pacman.py -l tinyMaze -p SearchAgent -a fn=tinyMazeSearch
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Vamos por partes… o primeiro desafio é que o vosso código do depthFirstSearch devolva uma lista de movimentos, como acontece no tinyMazeSearch
+
+Assim dentro desse def vocês têm que implementar o algoritmo na forma de grafo, que devolva então essa lista de movimentos.
+
+As funções getStartState, getSucessors e isGoalState estão já definidas no ficheiro searchAgents não sendo por isso necessário implementar.
+
+O que é importante definirem o que coloquei nos slides:
+Remember that a search node must contain not only a state but also the information necessary to reconstruct the path (plan) which gets to that state
+All of your search functions need to return a list of actions that will lead the agent from the start to the goal
+These actions all have to be legal moves (valid directions, no moving through walls)
+
+Portanto, vocês têm que conseguir saber o estado inicial (nó inicial) e depois conseguirem dizer qual a direção correta que ele deve seguir até chegar ao estado final.
+
+Vejam o ficheiro Pacman.py tem lá funções interessantes para saberem o estado atual, os movimentos permitidos, etc… é uma questão agora de conseguirem ter essa info no método que estão a implementar.
+
+
+--------------
+
+UTILIZAR PARA FAZER TESTES
+
+python pacman.py -l mediumMaze -p SearchAgent -a fn=depthFirstSearch
+
+python pacman.py -l mediumMaze -p SearchAgent -a fn=breadthFirstSearch
+
+python pacman.py -l bigMaze -p SearchAgent -a fn=depthFirstSearch
+
+python pacman.py -l tinyMaze -p SearchAgent -a fn=depthFirstSearch
+
+python pacman.py -l mediumScaryMaze -p SearchAgent -a fn=breadthFirstSearch
+
+links importantes --------------------------
+
+https://github.com/aahuja9/Pacman-AI <-  projeto feito
+https://medium.com/@lennyboyatzis/ai-teaching-pacman-to-search-with-depth-first-search-ee57daf889ab <- Exemplo com priority queue em vez de stack
+https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/ <-  explicação de DFS com stack
+https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/ <- explicação de BFS com stack
+https://www.programcreek.com/python/example/97985/util.Queue  <- exemplos de BFS
+
