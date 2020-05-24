@@ -69,6 +69,8 @@ python pacman.py -l tinyMaze -p SearchAgent -a fn=depthFirstSearch
 
 python pacman.py -l mediumScaryMaze -p SearchAgent -a fn=breadthFirstSearch
 
+python pacman.py -l mediumScaryMaze -p SearchAgent -a fn=uniformCostSearch
+
 links importantes --------------------------
 
 https://github.com/aahuja9/Pacman-AI <-  projeto feito
