@@ -163,37 +163,37 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     
-    # Starts the problem
+    # Initiates the problem
     start = problem.getStartState()
-
-    # Array to store 
     exploredState = []
 
     # Creates a prioty queue and push the initial state problem
     states = util.PriorityQueue()
-    states.push((start, []) ,0)
+    states.push((start, []), 0)
 
-    # Loop to find the path of least total cost first
+    # Loops untill there are no states to visit
     while not states.isEmpty():
         state, actions = states.pop()
 
-        # Returns the actions shen the goal is found
+        # Ends the function if the goal state is found
         if problem.isGoalState(state):
             return actions
 
-        # Look for next state and store it if is a new founded state, updating the cost
+        # Checks if the next State was already visited
         if state not in exploredState:
             successors = problem.getSuccessors(state)
+            # Checks the sucessors to that state
             for succ in successors:
                 coordinates = succ[0]
+                #checks if the sucessor was already visited
                 if coordinates not in exploredState:
                     directions = succ[1]
-                    newCost = actions + [directions]
-                    states.push((coordinates, actions + [directions]), problem.getCostOfActions(newCost))
+                    newActions = actions + [directions]
+                    states.push((coordinates, actions + [directions]), problem.getCostOfActions(newActions))
+                    # sucessor is pushed to the states priority Queue
         exploredState.append(state)
-
-    #return actions
-    #util.raiseNotDefined()
+    return actions
+    util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
     """
@@ -205,6 +205,29 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
+
+    # https://github.com/aahuja9/Pacman-AI/blob/master/search/search.py
+    
+    start = problem.getStartState()
+    exploredState = []
+    states = util.PriorityQueue()
+    states.push((start, []), nullHeuristic(start, problem))
+    nCost = 0
+    while not states.isEmpty():
+        state, actions = states.pop()
+        if problem.isGoalState(state):
+            return actions
+        if state not in exploredState:
+            successors = problem.getSuccessors(state)
+            for succ in successors:
+                coordinates = succ[0]
+                if coordinates not in exploredState:
+                    directions = succ[1]
+                    nActions = actions + [directions]
+                    nCost = problem.getCostOfActions(nActions) + heuristic(coordinates, problem)
+                    states.push((coordinates, actions + [directions]), nCost)
+        exploredState.append(state)
+    return actions
     util.raiseNotDefined()
 
 
