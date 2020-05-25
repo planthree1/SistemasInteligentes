@@ -202,28 +202,48 @@ def nullHeuristic(state, problem=None):
     """
     return 0
 
+def manhattanHeuristic(position, problem, info={}):  # Added by Dante
+    "The Manhattan distance heuristic for a PositionSearchProblem"
+    xy1 = position
+    xy2 = problem.goal
+    return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-
-    # https://github.com/aahuja9/Pacman-AI/blob/master/search/search.py
     
+    # Start the problem
     start = problem.getStartState()
+
+    # Store the visited state to avoid repeating a previously visited state
     exploredState = []
+
+    # Creates a priority queue and push the initial state problem with heuristic
     states = util.PriorityQueue()
-    states.push((start, []), nullHeuristic(start, problem))
-    nCost = 0
+    states.push((start, []), heuristic(start, problem))
+    nCost = 0  # Node cost
+
+    # Loops until there are no states to visit
     while not states.isEmpty():
+
+        # Get the actual state and actions (path)
         state, actions = states.pop()
+
+        # Find the problem when state = (1, 1)
         if problem.isGoalState(state):
             return actions
+
         if state not in exploredState:
             successors = problem.getSuccessors(state)
+
+            # Checks the sucessors to that state
             for succ in successors:
                 coordinates = succ[0]
                 if coordinates not in exploredState:
                     directions = succ[1]
                     nActions = actions + [directions]
+
+                    # Calculating the actual node cost
                     nCost = problem.getCostOfActions(nActions) + heuristic(coordinates, problem)
                     states.push((coordinates, actions + [directions]), nCost)
         exploredState.append(state)
