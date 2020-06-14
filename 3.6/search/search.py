@@ -107,57 +107,41 @@ def depthFirstSearch(problem):
                 queue.push((coordinates, actions + [direction]))
     return actions + [direction]
     util.raiseNotDefined()
-
-
+    '''
     while path[current_state][2] is not None:
         direction.insert(0, path[current_state][0])
         current_state = path[current_state][2]
         #print(path[current_state][2])
+    '''
 
     return direction
 
 
 def breadthFirstSearch(problem):
 
-    queue = util.Queue()
     start = problem.getStartState()
 
-    current_state = start
-    path = {}
-    isVisited = {}
+    exploredState = []
+    exploredState.append(start)
 
-    path[start] = [None, 0, None]
+    states = util.Queue()
+    stateTuple = (start, [])
 
-    isVisited[current_state] = True
-    queue.push(current_state)
+    states.push(stateTuple)
 
-    while not queue.isEmpty():
-
-        current_state = queue.pop()
-
-        if problem.isGoalState(current_state):
-            break
-
-        for successor in problem.getSuccessors(current_state):
-            neigh_node = successor[0] #neighbour Node
-            direction = successor[1]
-            cost = successor[2]
-
-
-            if neigh_node not in isVisited:
-                isVisited[neigh_node] = True
-                queue.push(neigh_node)
-                path[neigh_node] = [direction, 0, current_state]
-
-    direction = []
-
-
-    while path[current_state][2] is not None:
-        direction.insert(0, path[current_state][0])
-        current_state = path[current_state][2]
-        #print(path[current_state][2])
-
-    return direction
+    while not states.isEmpty():
+        state, action = states.pop()
+        if problem.isGoalState(state):
+            return action
+        successor = problem.getSuccessors(state)
+        for i in successor:
+            coordinates = i[0]
+            if not coordinates in exploredState:
+                direction = i[1]
+                exploredState.append(coordinates)
+                states.push((coordinates, action + [direction]))
+    return action
+    util.raiseNotDefined()
 
 
 def uniformCostSearch(problem):
@@ -200,15 +184,22 @@ def nullHeuristic(state, problem=None):
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
+    print("null heuristic")
     return 0
 
 def manhattanHeuristic(position, problem, info={}):  # Added by Dante
     "The Manhattan distance heuristic for a PositionSearchProblem"
     xy1 = position
+    xy2 = problem.goa
+    return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+
+def manhattanHeuristic2(position, problem, info={}):  # Added by Dante
+    "The Manhattan distance heuristic for a PositionSearchProblem"
+    xy1 = position
     xy2 = problem.goal
     return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
 
-def aStarSearch(problem, heuristic=nullHeuristic):
+def aStarSearch(problem, heuristic=manhattanHeuristic2):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
     
@@ -221,7 +212,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     # Creates a priority queue and push the initial state problem with heuristic
     states = util.PriorityQueue()
     states.push((start, []), heuristic(start, problem))
-    nCost = 0  # Node cost
 
     # Loops until there are no states to visit
     while not states.isEmpty():
@@ -249,6 +239,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         exploredState.append(state)
     return actions
     util.raiseNotDefined()
+
 
 
 # Abbreviations
